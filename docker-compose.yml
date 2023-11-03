@@ -11,7 +11,7 @@ services:
         environment:
             - TZ=Asia/Seoul
         volumes:
-            - /etc/timezone:/etc/timezone:ro 
+            - /etc/timezone:/etc/timezone:ro
             - ./:/root/sqlbot
             - redis_data:/root/sqlbot/data/redis/
         deploy:
@@ -19,7 +19,6 @@ services:
                 reservations:
                     devices:
                         - capabilities: [gpu]
-
     SQLBot-redis:
         image: redis:latest
         container_name: SQLBot-redis
@@ -30,6 +29,20 @@ services:
               published: 6379
         networks:
             - redis
+    SQLBot-postgres:
+        image: postgres:latest
+        container_name: SQLBot-postgres
+        stdin_open: true
+        tty: true
+        shm_size: 8gb
+        ports:
+            - "5434:5432" # host:container
+        environment:
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "postgres"
+        volumes:
+            - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+            - ./data/postgresql:/var/lib/postgresql/data
 
 volumes:
     redis_data:
@@ -38,4 +51,3 @@ volumes:
 networks:
     redis:
         driver: bridge
-
