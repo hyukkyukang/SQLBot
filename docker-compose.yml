@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+    SQLBot:
+        shm_size: 4gb
+        image: hyukkyukang/sqlbot:latest
+        container_name: SQLBot
+        stdin_open: true
+        tty: true
+        network_mode: "host"
+        environment:
+            - TZ=Asia/Seoul
+        volumes:
+            - /etc/timezone:/etc/timezone:ro 
+            - ./:/root/sqlbot
+            - redis_data:/root/sqlbot/data/redis/
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                        - capabilities: [gpu]
+
+    SQLBot-redis:
+        image: redis:latest
+        container_name: SQLBot-redis
+        volumes:
+            - redis_data:/data
+        ports:
+            - target: 6379
+              published: 6379
+        networks:
+            - redis
+
+volumes:
+    redis_data:
+        driver: local
+
+networks:
+    redis:
+        driver: bridge
+
