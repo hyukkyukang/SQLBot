@@ -20,17 +20,17 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+## Setup Database
+Edit .env file to setup database address for prisma. 
+```bash
+DATABASE_URL="postgresql://{username}:{user_password}@{ip}:{port}/{db_name}?schema=public"
+```
 
-To learn more about Next.js, take a look at the following resources:
+Pull database schema
+```bash
+npx prisma db pull
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+For details, please refer to the instruction in [prisma.io](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/connect-your-database-typescript-postgresql)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+If you want to use more than one database, please refer to [blog](https://www.kenaqshal.com/blog/connecting-to-multiple-databases-with-node-js-and-prisma#step-3:-defining-the-second-database-connection)

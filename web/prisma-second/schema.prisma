@@ -1,10 +1,11 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../node_modules/@internal/prisma-second/client"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("SECOND_DATABASE_URL")
 }
 
 model cars {
