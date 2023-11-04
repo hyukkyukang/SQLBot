@@ -1,39 +1,27 @@
+import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
 import React from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@nextui-org/react";
 
-export default function ResultTable({ title, children }: { title: string; children: React.ReactNode }) {
+export default function ResultTable({ title, colNames, rows }: { title: string; colNames: string[]; rows: (string|number)[][] }) {
     return (
         <React.Fragment>
-            <Table aria-label="Example static collection table">
+            <Table aria-label={title}>
                 <TableHeader>
-                    <TableColumn>NAME</TableColumn>
-                    <TableColumn>ROLE</TableColumn>
-                    <TableColumn>STATUS</TableColumn>
+                {colNames.map((colName) => (
+                    <TableColumn key={colName}>{colName}</TableColumn>
+                ))}
                 </TableHeader>
                 <TableBody>
-                    <TableRow key="1">
-                        <TableCell>Tony Reichert</TableCell>
-                        <TableCell>CEO</TableCell>
-                        <TableCell>Active</TableCell>
-                    </TableRow>
-                    <TableRow key="2">
-                        <TableCell>Zoey Lang</TableCell>
-                        <TableCell>Technical Lead</TableCell>
-                        <TableCell>Paused</TableCell>
-                    </TableRow>
-                    <TableRow key="3">
-                        <TableCell>Jane Fisher</TableCell>
-                        <TableCell>Senior Developer</TableCell>
-                        <TableCell>Active</TableCell>
-                    </TableRow>
-                    <TableRow key="4">
-                        <TableCell>William Howard</TableCell>
-                        <TableCell>Community Manager</TableCell>
-                        <TableCell>Vacation</TableCell>
-                    </TableRow>
+                    {
+                        rows.map((row) => (
+                            <TableRow key={row[0]}>
+                                {row.map((col) => (
+                                    <TableCell key={col}>{col}</TableCell>
+                                ))}
+                            </TableRow>
+                        ))
+                    }
                 </TableBody>
             </Table>
-            {children}
         </React.Fragment>
     );
 }

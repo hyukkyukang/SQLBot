@@ -1,10 +1,8 @@
 "use client";
-import { useSidebarOpenContext } from "@/app/conversation/sideBarContext";
 import { Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, SlideDirection } from "@chakra-ui/react";
 import React from "react";
 
-export default function SideBar({ title, children }: { title: string; children: React.ReactNode }) {
-    const { isOpen, setIsOpen } = useSidebarOpenContext();
+export default function SideBar({ title, isOpen, setIsOpen, children }: { title: string; isOpen: boolean, setIsOpen: React.Dispatch<React.SetStateAction<boolean>>, children: React.ReactNode }) {
 
     return (
         <React.Fragment>

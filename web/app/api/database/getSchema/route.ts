@@ -1,7 +1,6 @@
 import { PrismaClient as PC1} from '@prisma/client'
 import {PrismaClient as PC2} from '@internal/prisma-second/client';
 
-
 (BigInt.prototype as any).toJSON = function () {
     return this.toString();
 };
@@ -41,8 +40,6 @@ export async function GET(request: Request) {
     
     // Parse out table names
     const tableNames: string[] = allTableNames.map((element) => element["table_name"]);
-
-    console.log(tableNames);
 
     // Return array of error types for the model
     return new Response(JSON.stringify(tableNames));

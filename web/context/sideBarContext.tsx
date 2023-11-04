@@ -2,19 +2,19 @@
 import React from "react";
 
 export type sidebarOpenContext = {
-    isOpen: boolean;
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isSidebarOpen: boolean;
+    setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const SidebarOpenConext = React.createContext<sidebarOpenContext>({} as sidebarOpenContext);
 
 export function SidebarOpenContextContextProvider({ children }: { children: React.ReactNode }) {
-    const [isOpen, setIsOpen] = React.useState<boolean>(false);
+    const [isSidebarOpen, setIsSidebarOpen] = React.useState<boolean>(false);
     return (
         <SidebarOpenConext.Provider
             value={{
-                isOpen,
-                setIsOpen,
+                isSidebarOpen,
+                setIsSidebarOpen,
             }}
         >
             {children}

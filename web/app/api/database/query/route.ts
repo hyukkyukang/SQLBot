@@ -1,7 +1,6 @@
 import { PrismaClient as PC1} from '@prisma/client'
 import {PrismaClient as PC2} from '@internal/prisma-second/client';
 
-
 (BigInt.prototype as any).toJSON = function () {
     return this.toString();
 };
@@ -24,7 +23,7 @@ export async function GET(request: Request) {
 
     // route prisma to the correct database
     var prisma = null
-    if(dbName == "1") {
+    if(dbName == "test_db") {
         prisma = prisma1
     }
     else if (dbName == "2") {
@@ -37,8 +36,6 @@ export async function GET(request: Request) {
 
     // Read in cars
     const queryResult = await prisma.$queryRawUnsafe(query);
-    
-    console.log(queryResult);
 
     // Return array of error types for the model
     return new Response(JSON.stringify(queryResult));

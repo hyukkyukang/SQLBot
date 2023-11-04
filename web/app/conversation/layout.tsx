@@ -1,13 +1,15 @@
+import { Providers } from "@/app/conversation/providers";
+import SchemaGraphModal from "@/app/conversation/schemaGraphModal";
 import ConversationalSideBar from "@/app/conversation/sidebar";
-import { ChatContextProvider } from "@/context/chatContext";
-import { SidebarOpenContextContextProvider } from "./sideBarContext";
 
 export default function SignUpLayout({ children }: { children: React.ReactNode }) {
     return (
-        <SidebarOpenContextContextProvider>
+        <Providers>
             <ConversationalSideBar>
-                <ChatContextProvider>{children}</ChatContextProvider>
+                <SchemaGraphModal>
+                    {children}
+                </SchemaGraphModal>
             </ConversationalSideBar>
-        </SidebarOpenContextContextProvider>
+        </Providers>
     );
 }

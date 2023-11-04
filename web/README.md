@@ -21,6 +21,7 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
 ## Setup Database
+### PostgreSQL Connection
 Edit .env file to setup database address for prisma. 
 ```bash
 DATABASE_URL="postgresql://{username}:{user_password}@{ip}:{port}/{db_name}?schema=public"
@@ -34,3 +35,23 @@ npx prisma db pull
 For details, please refer to the instruction in [prisma.io](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/connect-your-database-typescript-postgresql)
 
 If you want to use more than one database, please refer to [blog](https://www.kenaqshal.com/blog/connecting-to-multiple-databases-with-node-js-and-prisma#step-3:-defining-the-second-database-connection)
+
+### Schema Visualization
+```postgresql
+\copy (SELECT
+  t.table_schema,
+  t.table_name,
+  c.column_name,
+  c.data_type,
+  c.ordinal_position
+FROM information_schema.tables t
+LEFT JOIN information_schema.columns c
+  ON t.table_schema = c.table_schema
+    AND t.table_name = c.table_name
+WHERE
+  t.table_schema NOT IN ('information_schema', 'pg_catalog')
+  AND t.table_name NOT IN ('schema_migrations', 'ar_internal_metadata')
+ORDER BY 1, 2, 5) TO '/root/sqlbot/output.csv' DELIMITER ',' CSV HEADER;
+```
+
+For details, please refer to [sql_schema_visualizer](https://github.com/sqlhabit/sql_schema_visualizer#how-to-visualize-your-schemas)

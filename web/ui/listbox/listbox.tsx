@@ -1,6 +1,6 @@
 "use client";
-import React from "react";
 import { Listbox, ListboxItem } from "@nextui-org/react";
+import React from "react";
 
 export const ListboxWrapper = ({ children }: { children: React.ReactNode }) => (
     <div className="w-[260px] border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100">{children}</div>
@@ -8,14 +8,13 @@ export const ListboxWrapper = ({ children }: { children: React.ReactNode }) => (
 
 export default function ListBox({
     itemList: itemList,
-    selectedKey,
-    setSelectedKey,
+    selectedItem: selectedItem,
+    setSelectedItem: setSelectedItem,
 }: {
     itemList: string[];
-    selectedKey: string;
-    setSelectedKey: React.Dispatch<React.SetStateAction<string>>;
+    selectedItem: string;
+    setSelectedItem: React.Dispatch<React.SetStateAction<string>>;
 }) {
-    // const [selectedKey, setSelectedKey] = React.useState<string>("text");
 
     return (
         <div className="flex flex-col gap-2">
@@ -25,8 +24,7 @@ export default function ListBox({
                     variant="flat"
                     disallowEmptySelection
                     selectionMode="single"
-                    selectedKeys={selectedKey}
-                    onSelectionChange={(key) => setSelectedKey(key as string)}
+                    onAction={(value) => {setSelectedItem(value as string)}}
                 >
                     {itemList.map((item) => (
                         <ListboxItem key={item} value={item}>
@@ -35,7 +33,7 @@ export default function ListBox({
                     ))}
                 </Listbox>
             </ListboxWrapper>
-            <p className="text-small text-default-500">Selected value: {selectedKey}</p>
+            <p className="text-small text-default-500">Selected value: {selectedItem}</p>
         </div>
     );
 }
