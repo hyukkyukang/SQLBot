@@ -33,7 +33,7 @@ export default function ListBox({
                     ))}
                 </Listbox>
             </ListboxWrapper>
-            <p className="text-small text-default-500">Selected value: {selectedItem}</p>
+            <p className="text-small text-default-500">Selected item: {selectedItem}</p>
         </div>
     );
 }

@@ -1,11 +1,11 @@
 "use client";
 import { SOLBotMessage, useChatContext } from "@/context/chatContext";
 import { useDatabaseContext } from "@/context/databaseContext";
-import { getResultByQuery } from "@/lib/query/get";
+import { useQueryResultContext } from "@/context/queryResultContext";
+import { useResultByQuery } from "@/lib/query/get";
 import { ChatContainer, MainContainer, Message, MessageInput, MessageList, MessageModel, TypingIndicator } from "@chatscope/chat-ui-kit-react";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import React, { useEffect, useMemo, useState } from "react";
-import { useQueryResultContext } from "@/context/queryResultContext";
 
 const typingIndicator = <TypingIndicator content="SQLBot is thinking" />;
 
@@ -23,7 +23,7 @@ export default function ChatWindow() {
     const [isWaiting, setIsWaiting] = useState<boolean>(false);
     const chatScopeMessages = useMemo(() => messages.map(SQLBotMessageToMessageModel), [messages]);
 
-    const { data, isLoading, isError } = getResultByQuery(selectedDB, messages[messages.length - 1]?.message);
+    const { data, isLoading, isError } = useResultByQuery(selectedDB, messages[messages.length - 1]?.message);
 
     const inputHandler = (value: string) => {
         setMessages([
@@ -43,7 +43,7 @@ export default function ChatWindow() {
         else if (data == undefined || data == null) {
             setQueryResult([]);
         }
-    }, [selectedDB, data]);
+    }, [selectedDB, setQueryResult, data]);
 
     return (
         <React.Fragment>
@@ -51,8 +51,8 @@ export default function ChatWindow() {
                 <MainContainer>
                     <ChatContainer>
                         <MessageList typingIndicator={isWaiting ? typingIndicator : null}>
-                            {chatScopeMessages.map((message) => (
-                                <Message model={message} />
+                            {chatScopeMessages.map((message, idx) => (
+                                <Message key={idx} model={message} />
                             ))}
                         </MessageList>
                         <MessageInput placeholder="Type message here" onSend={inputHandler} />
