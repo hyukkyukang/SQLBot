@@ -22,5 +22,13 @@
     "test_db": {
       "name": "Test Database",
       "description": ""
+    },
+    "concert_singer": {
+      "name": "Concert Singer Database",
+      "description": ""
+    },
+    "dorm_1": {
+      "name": "Dorm Database",
+      "description": ""
     }
   }

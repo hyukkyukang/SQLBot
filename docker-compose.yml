@@ -1,10 +1,10 @@
 version: "3"
 
 services:
-    SQLBot:
+    SQLBot-frontend:
         shm_size: 4gb
         image: hyukkyukang/sqlbot:latest
-        container_name: SQLBot
+        container_name: SQLBot-frontend
         stdin_open: true
         tty: true
         network_mode: "host"
@@ -13,12 +13,27 @@ services:
         volumes:
             - /etc/timezone:/etc/timezone:ro
             - ./:/root/sqlbot
+
+    SQLBot-backend:
+        shm_size: 4gb
+        image: hyukkyukang/nl2qgm:latest
+        container_name: SQLBot-backend
+        stdin_open: true
+        tty: true
+        network_mode: "host"
+        environment:
+            - TZ=Asia/Seoul
+        volumes:
+            - /etc/timezone:/etc/timezone:ro
+            - ./third_party/nl2qgm:/root/nl2qgm
             - redis_data:/root/sqlbot/data/redis/
+            - /mnt:/mnt
         deploy:
             resources:
                 reservations:
                     devices:
                         - capabilities: [gpu]
+
     SQLBot-redis:
         image: redis:latest
         container_name: SQLBot-redis
@@ -29,6 +44,7 @@ services:
               published: 6379
         networks:
             - redis
+
     SQLBot-postgres:
         image: postgres:latest
         container_name: SQLBot-postgres

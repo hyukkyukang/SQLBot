@@ -1,7 +1,0 @@
-table_schema,table_name,column_name,data_type,ordinal_position
-public,cars,id,integer,1
-public,cars,model,character varying,2
-public,cars,horsepower,integer,3
-public,cars,max_speed,integer,4
-public,cars,year,integer,5
-public,cars,price,double precision,6

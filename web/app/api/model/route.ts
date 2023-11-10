@@ -1,11 +1,13 @@
 import { MODEL_API_ADDR, responseHeaderJson, responseMethodPost, responseStatusValid } from "@/lib/api/utils";
 
 async function getModelResult(dbName: string, question: string): Promise<string> {
-    const addr = `${MODEL_API_ADDR}/inference/`
+    const addr = `${MODEL_API_ADDR}/text_to_sql`
+    console.log(`addr: ${addr}`);
     return await fetch(addr, {
         body: JSON.stringify({
-            question: question,
+            text: question,
             db_id: dbName,
+            analyse: false,
         }),
         ...responseHeaderJson,
         ...responseMethodPost,
@@ -17,6 +19,10 @@ export async function GET(request: Request) {
     const dbName = searchParams.get("dbName") ?? "";
     const question = searchParams.get("question") ?? "";
 
+
+    console.log(`dbName: ${dbName}`);
+    console.log(`question: ${question}`);
+    console.log(`MODEL_API_ADDR: ${MODEL_API_ADDR}`)
 
     // Check if arguments are valid
     if (dbName == "") {

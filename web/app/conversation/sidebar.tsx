@@ -11,7 +11,7 @@ export default function ConversationalSideBar({ children }: { children: React.Re
     return (
         <div className="flex flex-row h-screen">
             <SideBar title={"List of Database"} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen}>
-                <ListBox itemList={["test_db", "nba"]} selectedItem={selectedDB} setSelectedItem={setSelectedDB} />
+                <ListBox itemList={["test_db", "concert_singer", "dorm_1"]} selectedItem={selectedDB} setSelectedItem={setSelectedDB} />
             </SideBar>
             <div className="flex flex-col w-full">{children}</div>
         </div>

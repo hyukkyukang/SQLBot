@@ -37,6 +37,7 @@ For details, please refer to the instruction in [prisma.io](https://www.prisma.i
 If you want to use more than one database, please refer to [blog](https://www.kenaqshal.com/blog/connecting-to-multiple-databases-with-node-js-and-prisma#step-3:-defining-the-second-database-connection)
 
 ### Schema Visualization
+First go to target DB in PostgreSQL, and run the following command to export schema to csv file.
 ```postgresql
 \copy (SELECT
   t.table_schema,
@@ -51,7 +52,17 @@ LEFT JOIN information_schema.columns c
 WHERE
   t.table_schema NOT IN ('information_schema', 'pg_catalog')
   AND t.table_name NOT IN ('schema_migrations', 'ar_internal_metadata')
-ORDER BY 1, 2, 5) TO '/root/sqlbot/output.csv' DELIMITER ',' CSV HEADER;
+ORDER BY 1, 2, 5) TO 'output.csv' DELIMITER ',' CSV HEADER;
 ```
+
+Then, run below command to create json files for visualization.
+
+```bash
+npm run import ${db_name}
+```
+Then, the json config files will be saved under sql_schema_visualizer/src/config/databases/${db_name}.
+
+Lastly, add the database name in web/ui/graph/config/databases.json.
+
 
 For details, please refer to [sql_schema_visualizer](https://github.com/sqlhabit/sql_schema_visualizer#how-to-visualize-your-schemas)

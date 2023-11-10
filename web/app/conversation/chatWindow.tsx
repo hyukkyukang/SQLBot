@@ -1,20 +1,16 @@
 "use client";
-import { SOLBotMessage, useChatContext } from "@/context/chatContext";
+import { useChatContext } from "@/context/chatContext";
 import { useDatabaseContext } from "@/context/databaseContext";
 import { useQueryResultContext } from "@/context/queryResultContext";
+import { SQLBotMessageToMessageModel, filterUserMessages, filterSystemMessages } from "@/lib/message/utils";
 import { useResultByQuery } from "@/lib/query/get";
-import { ChatContainer, MainContainer, Message, MessageInput, MessageList, MessageModel, TypingIndicator } from "@chatscope/chat-ui-kit-react";
+import { ChatContainer, MainContainer, Message, MessageInput, MessageList, TypingIndicator } from "@chatscope/chat-ui-kit-react";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import React, { useEffect, useMemo, useState } from "react";
+import { useTranslatedSQLByQuestion } from "@/lib/model/get";
 
 const typingIndicator = <TypingIndicator content="SQLBot is thinking" />;
 
-function SQLBotMessageToMessageModel(message: SOLBotMessage): MessageModel {
-    return {
-        message: message.message,
-        direction: message.isUser ? "outgoing" : "incoming",
-    } as MessageModel;
-}
 
 export default function ChatWindow() {
     const { messages, setMessages } = useChatContext();
@@ -22,10 +18,15 @@ export default function ChatWindow() {
     const { setQueryResult } = useQueryResultContext();
     const [isWaiting, setIsWaiting] = useState<boolean>(false);
     const chatScopeMessages = useMemo(() => messages.map(SQLBotMessageToMessageModel), [messages]);
+    const systemMessages = useMemo(() => filterSystemMessages(messages), [messages]);
+    const userMessages = useMemo(() => filterUserMessages(messages), [messages]);
 
-    const { data, isLoading, isError } = useResultByQuery(selectedDB, messages[messages.length - 1]?.message);
+    const queryResult = useResultByQuery(selectedDB, systemMessages[systemMessages.length - 1]?.message);
+    const modelResult = useTranslatedSQLByQuestion(selectedDB, userMessages[userMessages.length - 1]?.message)
+
 
     const inputHandler = (value: string) => {
+        // Make request to the backend server
         setMessages([
             ...messages,
             {
@@ -36,14 +37,30 @@ export default function ChatWindow() {
         setIsWaiting(true);
     };
 
+    // Handle the translation response from the backend server 
     useEffect(() => {
-        if (data) {
-            setQueryResult(data);
+        if(modelResult.data) {
+            setMessages([
+                ...messages,
+                {
+                    message: modelResult.data["pred_sql"],
+                    isUser: false,
+                },
+            ]);
+            setIsWaiting(false);
         }
-        else if (data == undefined || data == null) {
+
+    }, [selectedDB, setQueryResult, modelResult.data])
+
+    // Handle the execution response from the backend server 
+    useEffect(() => {
+        if (queryResult.data) {
+            setQueryResult(queryResult.data);
+        }
+        else if (queryResult.data == undefined || queryResult.data == null) {
             setQueryResult([]);
         }
-    }, [selectedDB, setQueryResult, data]);
+    }, [selectedDB, setQueryResult, queryResult.data]);
 
     return (
         <React.Fragment>
