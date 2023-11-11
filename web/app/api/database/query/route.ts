@@ -1,12 +1,15 @@
-import { PrismaClient as PC1} from '@prisma/client'
-import {PrismaClient as PC2} from '@internal/prisma-second/client';
+import { PrismaClient as PC_test} from '@prisma/client'
+import {PrismaClient as PC_concert_singer} from '@internal/prisma-concert_singer/client';
+import {PrismaClient as PC_dorm_1} from '@internal/prisma-dorm_1/client';
 
 (BigInt.prototype as any).toJSON = function () {
     return this.toString();
 };
 
-const prisma1 = new PC1()
-const prisma2 = new PC2()
+const prisma_test = new PC_test()
+const prisma_concert_singer = new PC_concert_singer()
+const prisma_dorm_1 = new PC_dorm_1()
+
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -24,10 +27,13 @@ export async function GET(request: Request) {
     // route prisma to the correct database
     var prisma = null
     if(dbName == "test_db") {
-        prisma = prisma1
+        prisma = prisma_test
     }
-    else if (dbName == "2") {
-        prisma = prisma2
+    else if (dbName == "concert_singer") {
+        prisma = prisma_concert_singer
+    }
+    else if (dbName == "dorm_1") {
+        prisma = prisma_dorm_1
     }
     else {
         // Raise error

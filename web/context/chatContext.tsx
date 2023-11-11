@@ -1,10 +1,6 @@
 "use client";
 import React from "react";
-
-export type SOLBotMessage = {
-    message: string;
-    isUser: boolean;
-};
+import { SOLBotMessage } from "@/lib/message/types";
 
 export type chatContext = {
     messages: SOLBotMessage[];

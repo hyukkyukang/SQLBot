@@ -24,6 +24,4 @@ export const logTablePositions = (tableNodes: Node[]) => {
   });
 
   navigator.clipboard.writeText(JSON.stringify(positions, null, 2));
-
-  console.log(JSON.stringify(positions, null, 2));
 };

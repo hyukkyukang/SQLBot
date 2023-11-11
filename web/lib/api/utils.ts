@@ -20,6 +20,9 @@ export const responseMethodGet = {
 
 export interface RequestInitWithTimeout extends RequestInit {
     timeout?: number;
+    body?: string;
+    headers?: Record<string, string>;
+    method?: string;
 }
 
 export async function fetchWithTimeout(resource: RequestInfo | URL, options: RequestInitWithTimeout = {}): Promise<Response> {
