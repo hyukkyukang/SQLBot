@@ -1,13 +1,13 @@
 import { MODEL_API_ADDR, responseHeaderJson, responseMethodPost, responseStatusValid } from "@/lib/api/utils";
 
-async function getModelResult(dbName: string, question: string): Promise<string> {
+async function getModelResult(dbName: string, question: string, resetHistory: boolean): Promise<string> {
     const addr = `${MODEL_API_ADDR}/text_to_sql`
     return await fetch(addr, {
         body: JSON.stringify({
             text: question,
             db_id: dbName,
             analyse: false,
-            reset_history: false,
+            reset_history: resetHistory,
         }),
         ...responseHeaderJson,
         ...responseMethodPost,
@@ -18,6 +18,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const dbName = searchParams.get("dbName") ?? "";
     const question = searchParams.get("question") ?? "";
+    const resetHistory = searchParams.get("resetHistory") ?? "";
 
     // Check if arguments are valid
     if (dbName == "") {
@@ -26,8 +27,12 @@ export async function GET(request: Request) {
     else if(question == "") {
         return new Response("question is empty")
     }
+    else if(resetHistory == "") {
+        return new Response("resetHistory is empty")
+    }
+    console.log(`dbName: ${dbName}, question: ${question}, resetHistory: ${resetHistory}`)
 
     // Handle query
-    const data = await getModelResult(dbName, question);
+    const data = await getModelResult(dbName, question, resetHistory=="true");
     return new Response(JSON.stringify(data), { ...responseHeaderJson, ...responseStatusValid });
 }
