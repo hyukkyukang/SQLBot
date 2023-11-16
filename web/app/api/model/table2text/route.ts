@@ -18,8 +18,6 @@ interface Params {
 
 export async function POST(request: Request) {
     const requestBody = (await request.json()) as Params;
-    
-    console.log(`Request body: ${JSON.stringify(requestBody)}`)
 
     // Get keys from Params interface
     const paramKeys: (keyof Params)[] = ["rowValues"];

@@ -63,7 +63,6 @@ export default function ChatWindow() {
     // Add table summary message
     useEffect(() => {
         // Check if last message isSQL query and query result is not empty
-        console.log(`summarizationResult.data: ${JSON.stringify(summarizationResult.data)}`);
         if (summarizationResult.data && queryResult.data && queryResult.data.length > 0 && messages[messages.length-1].type == MessageType.isSQL) {
             // Request summarization from the backend server
             setMessages([
