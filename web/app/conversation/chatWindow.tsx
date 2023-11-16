@@ -57,7 +57,7 @@ export default function ChatWindow() {
     // Reset message if the selected database is changed
     useEffect(() => {
         setMessages([]);
-    }, [selectedDB]);
+    }, [selectedDB, setMessages]);
 
     
     // Add table summary message
@@ -75,7 +75,7 @@ export default function ChatWindow() {
                 }
             ]);
         }
-    }, [messages, queryResult.data, summarizationResult.data]);
+    }, [messages, setMessages, queryResult.data, summarizationResult.data]);
 
     // Add session reset message
     useEffect(() => {
@@ -85,7 +85,7 @@ export default function ChatWindow() {
             ]);
             setResetSession(false);
         }
-    }, [resetSession]);
+    }, [resetSession, messages, setMessages]);
 
     // Handle the translation response from the backend server 
     useEffect(() => {
@@ -114,7 +114,7 @@ export default function ChatWindow() {
             setIsWaiting(false);
         }
 
-    }, [selectedDB, setQueryResult, translationResult.data, isWaiting])
+    }, [selectedDB, messages, setMessages, setQueryResult, translationResult.data, isWaiting])
 
     // Handle the execution response from the backend server 
     useEffect(() => {
