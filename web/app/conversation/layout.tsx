@@ -7,7 +7,9 @@ export default function SignUpLayout({ children }: { children: React.ReactNode }
         <Providers>
             <ConversationalSideBar>
                 <SchemaGraphModal>
-                    {children}
+                    <main className="py-12">
+                        {children}
+                    </main>
                 </SchemaGraphModal>
             </ConversationalSideBar>
         </Providers>

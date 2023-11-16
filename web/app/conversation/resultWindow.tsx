@@ -1,7 +1,8 @@
 "use client";
 import { useQueryResultContext } from "@/context/queryResultContext";
-import { queryResultToColNames, validateSameNumCols,queryResultToRows } from "@/lib/table/utils";
+import { queryResultToColNames, queryResultToRows, validateSameNumCols } from "@/lib/table/utils";
 import ResultTable from "@/ui/table/table";
+import { Card, CardBody } from "@nextui-org/react";
 import React, { useMemo } from "react";
 
 export default function ResultWindow() {
@@ -13,7 +14,15 @@ export default function ResultWindow() {
 
     return (
         <React.Fragment>
-            {showResultTable ? <ResultTable title="Result Table" colNames={colNames} rows={rows} /> : null}
+            {
+            showResultTable ?
+            <ResultTable title="Result Table" colNames={colNames} rows={rows} /> :  
+            <Card>
+                <CardBody>
+                    <p>Query result table will be shown here</p>
+                </CardBody>
+            </Card>
+            }
         </React.Fragment>
     );
 }

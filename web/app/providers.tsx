@@ -1,6 +1,5 @@
 "use client";
 
-import { DatabaseContextProvider } from "@/context/databaseContext";
 import { ChakraProvider } from "@chakra-ui/react";
 import { NextUIProvider } from "@nextui-org/react";
 

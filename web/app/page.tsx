@@ -8,7 +8,7 @@ import Image from "next/image";
 export default async function Home() {
 
   return (
-    <>
+    <div className="flex min-h-screen w-full flex-col items-center justify-center">
       <div className="z-10 w-full max-w-xl px-5 xl:px-0">
         <a
           href={DEMO_VIDEO_URL}
@@ -87,7 +87,7 @@ export default async function Home() {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 }
 

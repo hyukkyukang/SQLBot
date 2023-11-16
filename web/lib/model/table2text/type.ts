@@ -1,10 +1,7 @@
-// Key as the column name and value as the cell value
-export type rowItem = {
-    [key: string]: string | number;
-}
+import { queryResult } from "@/lib/query/type";
 
 export type summarizationInput = {
-    rows: rowItem[];
+    rows: queryResult;
 }
 
 export type summarizationResult = {

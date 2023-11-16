@@ -128,7 +128,7 @@ export default function ChatWindow() {
 
     return (
         <React.Fragment>
-            <div style={{ position: "relative", height: "500px" }}>
+            <div style={{ position: "relative", height: "500px",paddingLeft: "20px", paddingRight: "20px" }}>
                 <MainContainer>
                     <ChatContainer>
                         <MessageList typingIndicator={isWaiting ? typingIndicator : null}>

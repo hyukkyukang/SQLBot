@@ -1,6 +1,12 @@
 import { MODEL_API_ADDR, responseHeaderJson, responseMethodPost, responseStatusValid } from "@/lib/api/utils";
+import { queryResult } from "@/lib/query/type";
 
-async function getModelResult(colNames: string[], rowValues: string[][]): Promise<string> {
+
+interface Params {
+    rowValues: queryResult; 
+}
+
+async function getModelResult(rowValues: queryResult): Promise<string> {
     const addr = `${MODEL_API_ADDR}/table_to_text`;
     return await fetch(addr, {
         body: JSON.stringify({
@@ -9,11 +15,6 @@ async function getModelResult(colNames: string[], rowValues: string[][]): Promis
         ...responseHeaderJson,
         ...responseMethodPost,
     }).then((res) => res.json());
-}
-
-interface Params {
-    colNames: string[];
-    rowValues: string[][]; 
 }
 
 export async function POST(request: Request) {
@@ -27,7 +28,8 @@ export async function POST(request: Request) {
         throw new Error(`Invalid request body. Missing keys: ${JSON.stringify(missingKeys)}`);
     }
 
-    // const data = await getModelResult(requestBody.colNames, requestBody.rowValues);
-    const data = JSON.stringify({"summary":"The table has been converted to text."});
-    return new Response(data, { ...responseHeaderJson, ...responseStatusValid });
+    const data = await getModelResult(requestBody.rowValues);
+    
+    // const data = JSON.stringify({"summary":"The table has been converted to text."});
+    return new Response(JSON.stringify(data), { ...responseHeaderJson, ...responseStatusValid });
 }
