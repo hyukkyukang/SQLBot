@@ -1,4 +1,4 @@
-import { TableConfig } from "../../tmp/sql_schema_visualizer/src/Visualizer/types";
+import { TableConfig } from "@/ui/graph/types/tableConfig";
 
 import dormTable from "./tables/dorm.json";
 import dormAmenityTable from "./tables/dorm_amenity.json";

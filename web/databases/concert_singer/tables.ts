@@ -1,4 +1,4 @@
-import { TableConfig } from "../../tmp/sql_schema_visualizer/src/Visualizer/types";
+import { TableConfig } from "@/ui/graph/types/tableConfig";
 
 import concertTable from "./tables/concert.json";
 import singerTable from "./tables/singer.json";
