@@ -6,7 +6,6 @@ import ResultTable from "@/ui/table/table";
 import { Card, CardBody, Tab, Tabs } from "@nextui-org/react";
 import React, { useMemo } from "react";
 
-
 export default function ResultWindow() {
   const { queryResult } = useQueryResultContext();
   const validResult = useMemo(() => validateSameNumCols(queryResult), [queryResult]);
@@ -30,7 +29,7 @@ export default function ResultWindow() {
             </div>  
           :
             <Card>
-              <CardBody>
+              <CardBody className="items-center">
                 {validResult ? <p>Empty Result</p> : <p>Query result will be shown here</p>}
               </CardBody>
             </Card>
