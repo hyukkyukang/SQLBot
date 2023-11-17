@@ -79,7 +79,8 @@ export default function BarChartWindow({ title, colNames, rows }: { title: strin
       categories={[colNames[numericColIndex]]}
       colors={["blue"]}
       valueFormatter={valueFormatter}
-      yAxisWidth={48}
+      yAxisWidth={100}
+      rotateLabelX={{angle: 35, xAxisHeight:85, verticalShift:35}}
     />
     </React.Fragment>
   : <p>Invalid data for bar chart</p>}

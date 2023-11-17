@@ -115,7 +115,7 @@ export default function ChatWindow() {
             ]);
             setResetSession(false);
         }
-    }, [messages, setMessages, resetSession, setMessages]);
+    }, [messages, setMessages, resetSession]);
 
     // Handle the translation response from the backend server 
     useEffect(() => {
@@ -187,7 +187,7 @@ export default function ChatWindow() {
                             {chatScopeMessages.map((message, idx) => (
                                 message.message == RESET_MESSAGE
                                 ?
-                                <MessageSeparator content="End of session" />
+                                <MessageSeparator key={idx} content="End of session" />
                                 :
                                 <Message key={idx} model={message} >
                                     <Message.Footer sentTime={message.sentTime} />

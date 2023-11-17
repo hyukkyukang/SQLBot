@@ -71,19 +71,17 @@ export default async function Home() {
         </div>
       </div>
       <div className="my-10 grid w-full max-w-screen-xl animate-fade-up grid-cols-1 gap-5 px-5 md:grid-cols-3 xl:px-0">
-        {features.map(({ title, description, demo, large }) => (
+        {features.map(({ title, description, demo, large, xlarge, xxlarge }) => (
           <Card
             key={title}
             title={title}
             description={description}
             demo={
-              title === "Beautiful, reusable components" ? (
-                <ComponentGrid />
-              ) : (
                 demo
-              )
             }
             large={large}
+            xlarge={xlarge}
+            xxlarge={xxlarge}
           />
         ))}
       </div>
@@ -93,57 +91,48 @@ export default async function Home() {
 
 const features = [
   {
-    title: "Beautiful, reusable components",
+    title: "Conversational Database Interface",
     description:
-      "Pre-built beautiful, a11y-first components, powered by [Tailwind CSS](https://tailwindcss.com/), [Radix UI](https://www.radix-ui.com/), and [Framer Motion](https://framer.com/motion)",
+      "Interact with databases without knowing SQL",
+    large: false,
+    xlarge: true,
+    xxlarge: false,
+    demo: <Image
+    src="/conversation.png"
+    alt="Deploy with Vercel"
+    width={800}
+    height={30}
+    unoptimized
+  />
+  },
+  {
+    title: "Schema Visualization",
+    description:
+      "Graphically visualize database schema",
+      large: false,
+      xlarge: false,
+      xxlarge: false,
+      demo: <Image
+    src="/schema.png"
+    alt="Deploy with Vercel"
+    width={300}
+    height={30}
+    unoptimized
+  />,
+  },
+  {
+    title: "Chart Visualization",
+    description:
+      "Graphically visualize query results",
     large: true,
-  },
-  {
-    title: "Performance first",
-    description:
-      "Built on [Next.js](https://nextjs.org/) primitives like `@next/font` and `next/image` for stellar performance.",
-    demo: <WebVitals />,
-  },
-  {
-    title: "One-click Deploy",
-    description:
-      "Jumpstart your next project by deploying Precedent to [Vercel](https://vercel.com/) in one click.",
-    demo: (
-      <a href={DEPLOY_URL}>
-        <Image
-          src="https://vercel.com/button"
-          alt="Deploy with Vercel"
-          width={120}
-          height={30}
-          unoptimized
-        />
-      </a>
-    ),
-  },
-  {
-    title: "Built-in Auth + Database",
-    description:
-      "Precedent comes with authentication and database via [Auth.js](https://authjs.dev/) + [Prisma](https://prisma.io/)",
-    demo: (
-      <div className="flex items-center justify-center space-x-20">
-        <Image alt="Auth.js logo" src="/authjs.webp" width={50} height={50} />
-        <Image alt="Prisma logo" src="/prisma.svg" width={50} height={50} />
-      </div>
-    ),
-  },
-  {
-    title: "Hooks, utilities, and more",
-    description:
-      "Precedent offers a collection of hooks, utilities, and `@vercel/og`",
-    demo: (
-      <div className="grid grid-flow-col grid-rows-3 gap-10 p-10">
-        <span className="font-mono font-semibold">useIntersectionObserver</span>
-        <span className="font-mono font-semibold">useLocalStorage</span>
-        <span className="font-mono font-semibold">useScroll</span>
-        <span className="font-mono font-semibold">nFormatter</span>
-        <span className="font-mono font-semibold">capitalize</span>
-        <span className="font-mono font-semibold">truncate</span>
-      </div>
-    ),
-  },
+    xlarge: false,
+    xxlarge: false,
+    demo: <Image
+    src="/chartTable.png"
+    alt="Deploy with Vercel"
+    width={800}
+    height={30}
+    unoptimized
+  />
+  }
 ];
