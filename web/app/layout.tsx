@@ -30,11 +30,11 @@ export default async function RootLayout({
           <div className="fixed h-screen w-full bg-gradient-to-br from-indigo-50 via-white to-cyan-100" />
           <Navbar />
           <Providers>
-          <main className="py-6">
+          <main className="py-6 mb-auto">
             {children}
           </main>
           </Providers>
-          <Footer />
+          {/* <Footer /> */}
           <Analytics />
         </body>
       </html>
