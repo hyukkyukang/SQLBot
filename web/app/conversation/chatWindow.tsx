@@ -6,7 +6,7 @@ import { MessageType, RESET_MESSAGE } from "@/lib/message/types";
 import { SQLBotMessageToMessageModel, filterMessagesByType, filterUserMessages } from "@/lib/message/utils";
 import { useSummarizationFromTable } from "@/lib/model/table2text/get";
 import { summarizationInput } from "@/lib/model/table2text/type";
-import { useTranslatedSQLByQuestion } from "@/lib/model/text2sql/get";
+import { useResetTranslationHistory, useTranslatedSQLByQuestion } from "@/lib/model/text2sql/get";
 import { useResultByQuery } from "@/lib/query/get";
 import { Button, ChatContainer, MainContainer, Message, MessageInput, MessageList, MessageSeparator, SendButton, TypingIndicator } from "@chatscope/chat-ui-kit-react";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
@@ -34,7 +34,7 @@ export default function ChatWindow() {
     const localQueryResult = useResultByQuery(selectedDB, SQLMessages[SQLMessages.length -1]?.message);
     const translationResult = useTranslatedSQLByQuestion(selectedDB, userMessages[userMessages.length - 1]?.message, messages[messages.length - 2]?.message == RESET_MESSAGE)
     const summarizationResult = useSummarizationFromTable(localQueryResult.data as unknown as summarizationInput);
-
+    const tmpResetResponse = useResetTranslationHistory(resetSession);
 
     const messageInputOnChange = (value: string) => {
         const valueWithoutHTML = striptags(value).replace('&gt;', '>').replace('&lt;', '<');
@@ -81,6 +81,13 @@ export default function ChatWindow() {
             }]);
         }
     }, [selectedDB, setMessages]);
+
+    // unset reset session flag if the reset session response is received
+    useEffect(() => {
+        if(tmpResetResponse.data){
+            setResetSession(false);
+        }
+    }, [setResetSession, tmpResetResponse]);
 
     
     // Add table summary message

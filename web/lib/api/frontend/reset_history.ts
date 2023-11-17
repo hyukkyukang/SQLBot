@@ -1,7 +1,6 @@
-import { API_ADDR, fetchWithTimeout } from '@/lib/api/utils';
-import { translationResult } from '@/lib/model/text2sql/type';
+import { fetchWithTimeout } from '@/lib/api/utils';
 
-export async function getTranslationResult(): Promise<translationResult> {
+export async function getTranslationResetResponse(): Promise<boolean> {
     const addr = "/api/model/text2sql/reset";
     return fetchWithTimeout(addr).then(res => res.json());
 }
