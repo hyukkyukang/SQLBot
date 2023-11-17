@@ -2,7 +2,7 @@ import { API_ADDR, fetchWithTimeout, responseHeaderJson, responseMethodPost } fr
 import { summarizationInput, summarizationResult } from '@/lib/model/table2text/type';
 
 export async function getSummarizationResult(rowValues: summarizationInput): Promise<summarizationResult> {
-    const addr = `${API_ADDR}/model/table2text`;
+    const addr = "/api/model/table2text";
     return fetchWithTimeout(addr, {
         body: JSON.stringify({
             rowValues: rowValues,

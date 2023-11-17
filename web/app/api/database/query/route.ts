@@ -41,8 +41,13 @@ export async function GET(request: Request) {
     }
 
     // Read in cars
-    const queryResult = await prisma.$queryRawUnsafe(query);
+    try {
+        const queryResult = await prisma.$queryRawUnsafe(query);
+        // Return array of error types for the model
+        return new Response(JSON.stringify(queryResult));
+    }
+    catch (error){
+        return new Response(JSON.stringify(error));
+    }
 
-    // Return array of error types for the model
-    return new Response(JSON.stringify(queryResult));
 }

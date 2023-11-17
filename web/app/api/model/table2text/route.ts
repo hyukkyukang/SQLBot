@@ -7,7 +7,7 @@ interface Params {
 }
 
 async function getModelResult(rowValues: queryResult): Promise<string> {
-    const addr = `${MODEL_API_ADDR}/table_to_text`;
+    const addr = MODEL_API_ADDR + "/table_to_text";
     return await fetch(addr, {
         body: JSON.stringify({
             rows: rowValues,

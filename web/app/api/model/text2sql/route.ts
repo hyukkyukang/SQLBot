@@ -1,7 +1,7 @@
 import { MODEL_API_ADDR, responseHeaderJson, responseMethodPost, responseStatusValid } from "@/lib/api/utils";
 
 async function getModelResult(dbName: string, question: string, resetHistory: boolean): Promise<string> {
-    const addr = `${MODEL_API_ADDR}/text_to_sql`
+    const addr = MODEL_API_ADDR + "/text_to_sql"
     return await fetch(addr, {
         body: JSON.stringify({
             text: question,
