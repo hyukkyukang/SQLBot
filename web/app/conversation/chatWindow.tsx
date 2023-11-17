@@ -156,6 +156,7 @@ export default function ChatWindow() {
                 });
                 // Add recommendation message if the confidence is low
                 if (translationResult.data.confidence < 70) {
+                    console.log(`translationResult.data.analyse_result.raw_input: ${translationResult.data.analyse_result.raw_input}`)
                     newMessages.push({
                         message: `I'm not sure if I understand your question. Are you sure you mean "${translationResult.data.analyse_result.raw_input}"?`,
                         confidence: 100,
