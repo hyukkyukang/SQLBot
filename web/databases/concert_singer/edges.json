@@ -10,7 +10,7 @@
       "source": "concert",
       "sourceKey": "concert_id",
       "target": "singer_in_concert",
-      "targetKey": "singer_id",
+      "targetKey": "concert_id",
       "relation": "hasMany"
     },
     {

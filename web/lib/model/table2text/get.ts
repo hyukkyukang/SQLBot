@@ -6,7 +6,7 @@ import useSWR from 'swr';
 export function useSummarizationFromTable(rowValues: summarizationInput) {
     // Define the key for SWR based on the dbName and query.
     // If either is not present, use null to avoid fetching.
-    const swrKey = rowValues ? ['getSummarizationResult', rowValues] : null;
+    const swrKey = rowValues != null && rowValues != undefined ? ['getSummarizationResult', rowValues] : null;
 
     // Define the fetcher function directly using getQueryResult, avoiding the use of useSWRWrapper.
     const fetcher = swrKey ? () => getSummarizationResult(rowValues) : null;

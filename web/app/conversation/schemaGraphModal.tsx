@@ -4,6 +4,8 @@ import { useSchemaModalContext } from "@/context/schemaModalContext";
 import SchemaVisualizer from "@/ui/graph/schemaGraph";
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
 
+const validDBNames = ["concert_singer", "dorm_1", "test_db"]
+
 export default function SchemaViewModal({children}: {children: React.ReactNode}) {
     const { selectedDB } = useDatabaseContext();
     const { isSchemaGraphOpen, setIsSchemaGraphOpen } = useSchemaModalContext();
@@ -19,7 +21,10 @@ export default function SchemaViewModal({children}: {children: React.ReactNode})
                 <>
                 <ModalHeader className="flex flex-col gap-1">Schema of {selectedDB}</ModalHeader>
                 <ModalBody>
+                   {validDBNames.includes(selectedDB) ?
                    <SchemaVisualizer databaseName={selectedDB}/>
+                   :<p>{`Only ${JSON.stringify(validDBNames)} are supported`}</p>
+                   }
                 </ModalBody>
                 <ModalFooter>
                     <Button color="danger" variant="light" onPress={onClose}>

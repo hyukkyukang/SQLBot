@@ -6,7 +6,7 @@ async function getModelResult(dbName: string, question: string, resetHistory: bo
         body: JSON.stringify({
             text: question,
             db_id: dbName,
-            analyse: false,
+            analyse: true,
             reset_history: resetHistory,
         }),
         ...responseHeaderJson,

@@ -9,7 +9,7 @@ datasource db {
 }
 
 model concert {
-  concert_id   Int @id
+  concert_id   String @id
   concert_name String?
   theme        String?
   stadium_id   String?
@@ -17,23 +17,23 @@ model concert {
 }
 
 model singer {
-  singer_id         Int @id
+  singer_id         String @id
   name              String?
   country           String?
   song_name         String?
   song_release_year String?
-  age               Int?
+  age               String?
   is_male           Boolean?
 }
 
 model singer_in_concert {
-  id Int @id
-  concert_id Int
+  id String @id
+  concert_id String
   singer_id  String
 }
 
 model stadium {
-  stadium_id Int @id
+  stadium_id String @id
   location   String?
   name       String?
   capacity   Int?

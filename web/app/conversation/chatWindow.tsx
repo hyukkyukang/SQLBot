@@ -31,9 +31,9 @@ export default function ChatWindow() {
     const SQLMessages = useMemo(() => filterMessagesByType(messages, MessageType.isSQL), [messages]);
     const userMessages = useMemo(() => filterUserMessages(messages), [messages]);
 
-    const queryResult = useResultByQuery(selectedDB, SQLMessages[SQLMessages.length -1]?.message);
+    const localQueryResult = useResultByQuery(selectedDB, SQLMessages[SQLMessages.length -1]?.message);
     const translationResult = useTranslatedSQLByQuestion(selectedDB, userMessages[userMessages.length - 1]?.message, messages[messages.length - 2]?.message == RESET_MESSAGE)
-    const summarizationResult = useSummarizationFromTable(queryResult.data as unknown as summarizationInput);
+    const summarizationResult = useSummarizationFromTable(localQueryResult.data as unknown as summarizationInput);
 
 
     const messageInputOnChange = (value: string) => {
@@ -86,7 +86,7 @@ export default function ChatWindow() {
     // Add table summary message
     useEffect(() => {
         // Check if last message isSQL query and query result is not empty
-        if (isWaitingSummarization && summarizationResult.data && queryResult.data && queryResult.data.length > 0) {
+        if (isWaitingSummarization && summarizationResult.data && localQueryResult.data) {
             // Request summarization from the backend server
             setMessages([
                 ...messages,
@@ -99,7 +99,7 @@ export default function ChatWindow() {
             ]);
             setIsWaitingSummarization(false);
         }
-    }, [messages, setMessages, isWaitingSummarization, setIsWaitingSummarization, queryResult.data, summarizationResult.data]);
+    }, [messages, setMessages, isWaitingSummarization, setIsWaitingSummarization, localQueryResult.data, summarizationResult.data]);
 
     // Add session reset message
     useEffect(() => {
@@ -147,24 +147,36 @@ export default function ChatWindow() {
                     type: MessageType.isSQL,
                     intent: "none",
                 });
+                // Add recommendation message if the confidence is low
+                if (translationResult.data.confidence < 70) {
+                    newMessages.push({
+                        message: `I'm not sure if I understand your question. Are you sure you mean "${translationResult.data.analyse_result.raw_input}"?`,
+                        confidence: 100,
+                        type: MessageType.isSystemMessage,
+                        intent: "none",
+                    });
+                    setIsWaitingSummarization(false);
+                }
+                else{
+                    setIsWaitingSummarization(true);
+                }
             }
 
             setMessages(newMessages);
             setIsWaitingTranslation(false);
-            setIsWaitingSummarization(!SESSION_END_INTENTS.includes(translationResult.data.user_intent));
         }
 
     }, [selectedDB, messages, setMessages, setQueryResult, translationResult.data, isWaitingTranslation])
 
     // Handle the execution response from the backend server 
     useEffect(() => {
-        if (queryResult.data) {
-            setQueryResult(queryResult.data);
+        if (localQueryResult.data) {
+            setQueryResult(localQueryResult.data);
         }
-        else if (queryResult.data == undefined || queryResult.data == null) {
-            setQueryResult([]);
+        else if (localQueryResult.data == undefined || localQueryResult.data == null) {
+            setQueryResult(null);
         }
-    }, [selectedDB, setQueryResult, queryResult.data]);
+    }, [selectedDB, setQueryResult, localQueryResult.data]);
 
     return (
         <React.Fragment>
@@ -177,7 +189,7 @@ export default function ChatWindow() {
                                 ?
                                 <MessageSeparator content="End of session" />
                                 :
-                                <Message key={idx} model={message}>
+                                <Message key={idx} model={message} >
                                     <Message.Footer sentTime={message.sentTime} />
                                 </Message>
                                 

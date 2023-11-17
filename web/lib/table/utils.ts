@@ -1,9 +1,12 @@
 import { queryResult } from "@/lib/query/type";
 
 
-export function validateSameNumCols(queryResult: queryResult): boolean {
+export function validateSameNumCols(queryResult: queryResult | null): boolean {
     if (queryResult && queryResult.length === 0) {
         return true;
+    }
+    if (queryResult === null) {
+        return false;
     }
     const numCols = Object.keys(queryResult[0]).length;
     for (const row of queryResult) {

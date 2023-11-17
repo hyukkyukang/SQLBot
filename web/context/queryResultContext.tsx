@@ -3,14 +3,14 @@ import { queryResult } from "@/lib/query/type";
 import React from "react";
 
 export type queryResultContext = {
-    queryResult: queryResult;
-    setQueryResult: React.Dispatch<React.SetStateAction<queryResult>>;
+    queryResult: queryResult | null;
+    setQueryResult: React.Dispatch<React.SetStateAction<queryResult | null>>;
 };
 
 const QueryResultContext = React.createContext<queryResultContext>({} as queryResultContext);
 
 export function QueryResultContextProvider({ children }: { children: React.ReactNode }) {
-    const [queryResult, setQueryResult] = React.useState<queryResult>([]);
+    const [queryResult, setQueryResult] = React.useState<queryResult | null>(null);
     return (
         <QueryResultContext.Provider
             value={{

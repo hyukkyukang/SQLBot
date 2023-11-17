@@ -9,7 +9,7 @@ export type translationResult = {
     confidence: number;
     user_intent: string;
     analyse_result: {
-        raw_input: string[];
-        word_attributions: number[];
+        raw_input: string;
+        word_attributions: number;
     }
 }
