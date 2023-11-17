@@ -1,1 +1,1 @@
-# sqlbot
+# SQLBot
