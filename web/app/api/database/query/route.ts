@@ -1,6 +1,7 @@
-import { PrismaClient as PC_test} from '@prisma/client'
-import {PrismaClient as PC_concert_singer} from '@internal/prisma-concert_singer/client';
-import {PrismaClient as PC_dorm_1} from '@internal/prisma-dorm_1/client';
+import { PrismaClient as PC_concert_singer } from '@internal/prisma-concert_singer/client';
+import { PrismaClient as PC_dorm_1 } from '@internal/prisma-dorm_1/client';
+import { PrismaClient as PC_formula_1 } from '@internal/prisma-formula_1/client';
+import { PrismaClient as PC_test } from '@prisma/client';
 
 (BigInt.prototype as any).toJSON = function () {
     return this.toString();
@@ -9,6 +10,7 @@ import {PrismaClient as PC_dorm_1} from '@internal/prisma-dorm_1/client';
 const prisma_test = new PC_test()
 const prisma_concert_singer = new PC_concert_singer()
 const prisma_dorm_1 = new PC_dorm_1()
+const prisma_formula_1 = new PC_formula_1()
 
 
 export async function GET(request: Request) {
@@ -34,6 +36,9 @@ export async function GET(request: Request) {
     }
     else if (dbName == "dorm_1") {
         prisma = prisma_dorm_1
+    }
+    else if (dbName == "formula_1"){
+        prisma = prisma_formula_1
     }
     else {
         // Raise error

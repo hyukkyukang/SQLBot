@@ -27,14 +27,17 @@ Edit .env file to setup database address for prisma.
 DATABASE_URL="postgresql://{username}:{user_password}@{ip}:{port}/{db_name}?schema=public"
 ```
 
-Pull database schema
+### Pull database schema
 ```bash
 npx prisma db pull
+npx prisma db pull --schema=./prisma-concert_singer/schema.prisma
+npx prisma db pull --schema=./prisma-dorm_1/schema.prisma
+npx prisma db pull --schema=./prisma-formula_1/schema.prisma
 ```
 
 For details, please refer to the instruction in [prisma.io](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/connect-your-database-typescript-postgresql)
 
-If you want to use more than one database, please refer to [blog](https://www.kenaqshal.com/blog/connecting-to-multiple-databases-with-node-js-and-prisma#step-3:-defining-the-second-database-connection)
+For using more than one database, please refer to [blog](https://www.kenaqshal.com/blog/connecting-to-multiple-databases-with-node-js-and-prisma#step-3:-defining-the-second-database-connection).
 
 ### Schema Visualization
 First go to target DB in PostgreSQL, and run the following command to export schema to csv file.
@@ -55,7 +58,12 @@ WHERE
 ORDER BY 1, 2, 5) TO 'output.csv' DELIMITER ',' CSV HEADER;
 ```
 
-Then, run below command to create json files for visualization.
+Rename the output csv file
+```bash
+mv output.csv ${db_name}.csv
+```
+
+Then, clone [sql_schema_visualizer repository](https://github.com/sqlhabit/sql_schema_visualizer#how-to-visualize-your-schemas) and run below command to create json files for visualization.
 
 ```bash
 npm run import ${db_name}
@@ -64,5 +72,14 @@ Then, the json config files will be saved under sql_schema_visualizer/src/config
 
 Lastly, add the database name in web/ui/graph/config/databases.json.
 
+
+### Generating Prisma Client components
+We need to generate the prisma client components to import them in our react code.
+```bash
+npx prisma generate
+npx prisma generate --schema=./prisma-concert_singer/schema.prisma
+npx prisma generate --schema=./prisma-dorm_1/schema.prisma
+npx prisma generate --schema=./prisma-formula_1/schema.prisma
+```
 
 For details, please refer to [sql_schema_visualizer](https://github.com/sqlhabit/sql_schema_visualizer#how-to-visualize-your-schemas)

@@ -10,5 +10,9 @@
     "dorm_1": {
       "name": "Dorm Database",
       "description": ""
+    },
+    "formula_1": {
+      "name" : "Formula 1 Database",
+      "description": ""
     }
   }

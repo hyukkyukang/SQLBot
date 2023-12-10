@@ -4,7 +4,7 @@ import { useSchemaModalContext } from "@/context/schemaModalContext";
 import SchemaVisualizer from "@/ui/graph/schemaGraph";
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
 
-const validDBNames = ["concert_singer", "dorm_1", "test_db"]
+const validDBNames = ["concert_singer", "dorm_1", "formula_1", "test_db"]
 
 export default function SchemaViewModal({children}: {children: React.ReactNode}) {
     const { selectedDB } = useDatabaseContext();
