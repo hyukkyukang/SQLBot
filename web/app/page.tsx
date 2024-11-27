@@ -91,7 +91,7 @@ export default async function Home() {
 
 const features = [
   {
-    title: "Conversational Database Interface",
+    title: "Conversational Database Interface (querying & tuning)",
     description:
       "Interact with databases without knowing SQL",
     large: false,
@@ -106,9 +106,9 @@ const features = [
   />
   },
   {
-    title: "Schema Visualization",
+    title: "Workload Visualization",
     description:
-      "Graphically visualize database schema",
+      "Graphically visualize workload history",
       large: false,
       xlarge: false,
       xxlarge: false,
@@ -121,9 +121,9 @@ const features = [
   />,
   },
   {
-    title: "Chart Visualization",
+    title: "Knob Tuning Results Visualization",
     description:
-      "Graphically visualize query results",
+      "Graphically visualize knob tuning results",
     large: true,
     xlarge: false,
     xxlarge: false,
