@@ -8,6 +8,7 @@ interface Params {
 
 async function getModelResult(rowValues: queryResult): Promise<string> {
     const addr = MODEL_API_ADDR + "/table_to_text";
+    console.log("rowValues: ", rowValues);
     return await fetch(addr, {
         body: JSON.stringify({
             rows: rowValues,

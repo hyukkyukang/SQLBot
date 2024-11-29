@@ -2,6 +2,7 @@ import { MODEL_API_ADDR, responseHeaderJson, responseMethodPost, responseStatusV
 
 async function getModelResult(dbName: string, question: string, resetHistory: boolean): Promise<string> {
     const addr = MODEL_API_ADDR + "/text_to_sql"
+    console.log(`dbName: ${dbName} question: ${question}`);
     return await fetch(addr, {
         body: JSON.stringify({
             text: question,
@@ -30,7 +31,7 @@ export async function GET(request: Request) {
     else if(resetHistory == "") {
         return new Response("resetHistory is empty")
     }
-    console.log(`dbName: ${dbName}, question: ${question}, resetHistory: ${resetHistory}`)
+    console.log(`dbdbdbdbdb: ${dbName}, question: ${question}, resetHistory: ${resetHistory}`)
 
     // Handle query
     const data = await getModelResult(dbName, question, resetHistory=="true");

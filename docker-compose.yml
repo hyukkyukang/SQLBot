@@ -46,7 +46,7 @@ services:
             - redis
 
     SQLBot-postgres:
-        image: postgres:latest
+        image: postgres:16.6
         container_name: SQLBot-postgres
         stdin_open: true
         tty: true

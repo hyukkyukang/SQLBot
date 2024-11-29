@@ -8,7 +8,7 @@ export function useTranslatedSQLByQuestion(dbName: string, question: string, res
     // Define the key for SWR based on the dbName and query.
     // If either is not present, use null to avoid fetching.
     const swrKey = dbName && question ? ['getTranslationResult', dbName, question] : null;
-
+    // console.log(`dbName: ${dbName} question: ${question} resetHistory: ${resetHistory}`);
     // Define the fetcher function directly using getQueryResult, avoiding the use of useSWRWrapper.
     const fetcher = swrKey ? () => getTranslationResult(dbName, question, resetHistory) : null;
 
