@@ -1,7 +1,7 @@
 import { SOLBotMessage, MessageType } from "@/lib/message/types";
 import { MessageModel } from "@chatscope/chat-ui-kit-react";
 
-export function SQLBotMessageToMessageModel(message: SOLBotMessage): MessageModel {
+export function DBAdminBotMessageToMessageModel(message: SOLBotMessage): MessageModel {
     return {
         message: message.message,
         position: "single",

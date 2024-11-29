@@ -1,5 +1,5 @@
 import React from "react";
 
-export const SQLBotLogo = () => {
-    return <div>SQLBot</div>;
+export const DBAdminBotLogo = () => {
+    return <div>DBAdminBot</div>;
 };

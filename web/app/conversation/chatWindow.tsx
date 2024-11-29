@@ -3,7 +3,7 @@ import { useChatContext } from "@/context/chatContext";
 import { useDatabaseContext } from "@/context/databaseContext";
 import { useQueryResultContext } from "@/context/queryResultContext";
 import { MessageType, RESET_MESSAGE } from "@/lib/message/types";
-import { SQLBotMessageToMessageModel, filterMessagesByType, filterUserMessages } from "@/lib/message/utils";
+import { DBAdminBotMessageToMessageModel, filterMessagesByType, filterUserMessages } from "@/lib/message/utils";
 import { useSummarizationFromTable } from "@/lib/model/table2text/get";
 import { summarizationInput } from "@/lib/model/table2text/type";
 import { useResetTranslationHistory, useTranslatedSQLByQuestion } from "@/lib/model/text2sql/get";
@@ -14,9 +14,9 @@ import React, { useEffect, useMemo, useState } from "react";
 import { BsFillEraserFill } from "react-icons/bs";
 import striptags from 'striptags';
 
-const WELCOME_MESSAGE = "Hi, I'm SQLBot. I can help you to query the database using natural language. Please select a database to start.";
+const WELCOME_MESSAGE = "Hi, I'm DBAdminBot. I can help you to query the database using natural language. Please select a database to start.";
 const SYSTEM_END_MESSAGE = "You're welcome! If you have any more questions or need further assistance, feel free to ask.";
-const typingIndicator = <TypingIndicator content="SQLBot is thinking" />;
+const typingIndicator = <TypingIndicator content="DBAdminBot is thinking" />;
 const SESSION_END_INTENTS = ["thank_you", "affirm"];
 
 export default function ChatWindow() {
@@ -27,7 +27,7 @@ export default function ChatWindow() {
     const [isWaitingSummarization, setIsWaitingSummarization] = useState<boolean>(false);
     const [inputMessage, setInputMessage] = useState<string>("");
     const [resetSession, setResetSession] = useState<boolean>(false);
-    const chatScopeMessages = useMemo(() => messages.map(SQLBotMessageToMessageModel), [messages]);
+    const chatScopeMessages = useMemo(() => messages.map(DBAdminBotMessageToMessageModel), [messages]);
     const SQLMessages = useMemo(() => filterMessagesByType(messages, MessageType.isSQL), [messages]);
     const userMessages = useMemo(() => filterUserMessages(messages), [messages]);
 

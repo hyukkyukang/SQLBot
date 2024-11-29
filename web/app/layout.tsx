@@ -8,9 +8,9 @@ import "./globals.css";
 import { Providers } from "./providers";
 
 export const metadata = {
-    title: "SQLBot",
+    title: "DBAdminBot",
     description:
-      "SQLBot is a conversational database interface that allows users to query databases using natural language.",
+      "DBAdminBot is a conversational database interface that allows users to query databases using natural language.",
     metadataBase: new URL("https://sqlbot.co.kr"),
   };
   

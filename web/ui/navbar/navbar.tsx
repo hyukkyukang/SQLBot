@@ -1,12 +1,12 @@
 "use client";
-import { SQLBotLogo } from "@/ui/logo";
+import { DBAdminBotLogo } from "@/ui/logo";
 import { Link, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react";
 
 export default function NavBar() {
     return (
         <Navbar>
             <NavbarBrand>
-                <SQLBotLogo />
+                <DBAdminBotLogo />
             </NavbarBrand>
             <NavbarContent className="sm:flex gap-4" justify="center">
                 <NavbarItem isActive>

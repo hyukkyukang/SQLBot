@@ -18,14 +18,14 @@ export default async function Home() {
         >
           <Youtube className="h-5 w-5 text-[#1d9bf0]" />
           <p className="text-sm font-semibold text-[#1d9bf0]">
-            Introducing SQLBot
+            Introducing DBAdminBot
           </p>
         </a>
         <h1
           className="animate-fade-up bg-gradient-to-br from-black to-stone-500 bg-clip-text text-center font-display text-4xl font-bold tracking-[-0.02em] text-transparent opacity-0 drop-shadow-sm [text-wrap:balance] md:text-7xl md:leading-[5rem]"
           style={{ animationDelay: "0.15s", animationFillMode: "forwards" }}
         >
-          SQLBot
+          DBAdminBot
         </h1>
         <p
           className="mt-6 animate-fade-up text-center text-gray-500 opacity-0 [text-wrap:balance] md:text-xl"
@@ -91,7 +91,7 @@ export default async function Home() {
 
 const features = [
   {
-    title: "Conversational Database Interface",
+    title: "Conversational Database Interface (querying & tuning)",
     description:
       "Interact with databases without knowing SQL",
     large: false,
@@ -106,9 +106,9 @@ const features = [
   />
   },
   {
-    title: "Schema Visualization",
+    title: "Workload Visualization",
     description:
-      "Graphically visualize database schema",
+      "Graphically visualize workload history",
       large: false,
       xlarge: false,
       xxlarge: false,
@@ -121,9 +121,9 @@ const features = [
   />,
   },
   {
-    title: "Chart Visualization",
+    title: "Knob Tuning Results Visualization",
     description:
-      "Graphically visualize query results",
+      "Graphically visualize knob tuning results",
     large: true,
     xlarge: false,
     xxlarge: false,
