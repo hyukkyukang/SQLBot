@@ -2,6 +2,7 @@
 import { useChatContext } from "@/context/chatContext";
 import { useDatabaseContext } from "@/context/databaseContext";
 import { useQueryResultContext } from "@/context/queryResultContext";
+import { useQuestionSqlContext } from "@/context/questionSqlContext";
 import { MessageType, RESET_MESSAGE } from "@/lib/message/types";
 import { DBAdminBotMessageToMessageModel, filterMessagesByType, filterUserMessages } from "@/lib/message/utils";
 import { useSummarizationFromTable } from "@/lib/model/table2text/get";
@@ -23,10 +24,12 @@ export default function ChatWindow() {
     const { messages, setMessages } = useChatContext();
     const { selectedDB } = useDatabaseContext();
     const { setQueryResult } = useQueryResultContext();
+    const { questionSqlPairs, setQuestionSqlPairs } = useQuestionSqlContext();
     const [isWaitingTranslation, setIsWaitingTranslation] = useState<boolean>(false);
     const [isWaitingSummarization, setIsWaitingSummarization] = useState<boolean>(false);
     const [inputMessage, setInputMessage] = useState<string>("");
     const [resetSession, setResetSession] = useState<boolean>(false);
+    const [translationHandled, setTranslationHandled] = useState<boolean>(false);
     const chatScopeMessages = useMemo(() => messages.map(DBAdminBotMessageToMessageModel), [messages]);
     const SQLMessages = useMemo(() => filterMessagesByType(messages, MessageType.isSQL), [messages]);
     const userMessages = useMemo(() => filterUserMessages(messages), [messages]);
@@ -35,6 +38,33 @@ export default function ChatWindow() {
     const translationResult = useTranslatedSQLByQuestion(selectedDB, userMessages[userMessages.length - 1]?.message, messages[messages.length - 2]?.message == RESET_MESSAGE)
     const summarizationResult = useSummarizationFromTable(localQueryResult.data as unknown as summarizationInput);
     const tmpResetResponse = useResetTranslationHistory(resetSession);
+    
+    useEffect(() => {
+        if (
+            translationResult?.data?.pred_sql && 
+            userMessages?.[userMessages.length - 1]?.message
+        ) {
+            const isDuplicate = questionSqlPairs.some(pair => 
+                pair.question === userMessages[userMessages.length - 1]?.message
+            );
+    
+            if (!isDuplicate || !translationHandled) {
+                const newPair = {
+                    question: userMessages[userMessages.length - 1]?.message,
+                    sql: translationResult?.data.pred_sql,
+                };
+                setQuestionSqlPairs(prevPairs => [...prevPairs, newPair]);
+                setTranslationHandled(true); // Mark as handled to avoid repeating
+            }
+        }
+    }, [translationResult?.data?.pred_sql, userMessages, questionSqlPairs, translationHandled]);
+    console.log(questionSqlPairs);
+    useEffect(() => {
+        // Reset translationHandled whenever a new message is added
+        if (isWaitingTranslation) {
+            setTranslationHandled(false);
+        }
+    }, [isWaitingTranslation]);
 
     const messageInputOnChange = (value: string) => {
         const valueWithoutHTML = striptags(value).replace('&gt;', '>').replace('&lt;', '<');
@@ -89,7 +119,7 @@ export default function ChatWindow() {
         }
     }, [setResetSession, tmpResetResponse]);
 
-    
+
     // Add table summary message
     useEffect(() => {
         // Check if last message isSQL query and query result is not empty
@@ -126,7 +156,7 @@ export default function ChatWindow() {
 
     // Handle the translation response from the backend server 
     useEffect(() => {
-        if(translationResult.data && isWaitingTranslation) {
+        if(translationResult?.data && isWaitingTranslation) {
             const newMessages = [
                 ...messages.slice(0, -1),
                 // Correct the last user message with predicted intent
@@ -134,11 +164,11 @@ export default function ChatWindow() {
                     message: messages[messages.length - 1].message,
                     confidence: 100,
                     type: MessageType.isUser,
-                    intent: translationResult.data.user_intent,
+                    intent: translationResult?.data.user_intent,
                 },
             ];
             // Add system message only if the user intent is not "thank_you"
-            if (SESSION_END_INTENTS.includes(translationResult.data.user_intent)) {
+            if (SESSION_END_INTENTS.includes(translationResult?.data.user_intent)) {
                 newMessages.push({
                     message: SYSTEM_END_MESSAGE,
                     confidence: 100,
@@ -149,16 +179,15 @@ export default function ChatWindow() {
             }
             else {
                 newMessages.push({
-                    message: translationResult.data.pred_sql,
-                    confidence: translationResult.data.confidence,
+                    message: translationResult?.data.pred_sql,
+                    confidence: translationResult?.data.confidence,
                     type: MessageType.isSQL,
                     intent: "none",
                 });
                 // Add recommendation message if the confidence is low
-                if (translationResult.data.confidence < 70) {
-                    console.log(`translationResult.data.analyse_result.raw_input: ${translationResult.data.analyse_result.raw_input}`)
+                if (translationResult?.data.confidence < 70) {
                     newMessages.push({
-                        message: `I'm not sure if I understand your question. Are you sure you mean "${translationResult.data.analyse_result.raw_input}"?`,
+                        message: `I'm not sure if I understand your question. Are you sure you mean "${translationResult?.data.analyse_result.raw_input}"?`,
                         confidence: 100,
                         type: MessageType.isSystemMessage,
                         intent: "none",
@@ -174,7 +203,7 @@ export default function ChatWindow() {
             setIsWaitingTranslation(false);
         }
 
-    }, [selectedDB, messages, setMessages, setQueryResult, translationResult.data, isWaitingTranslation])
+    }, [selectedDB, messages, setMessages, setQueryResult, translationResult?.data, isWaitingTranslation])
 
     // Handle the execution response from the backend server 
     useEffect(() => {

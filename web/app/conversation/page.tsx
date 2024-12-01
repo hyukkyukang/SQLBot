@@ -4,12 +4,14 @@ import ResultWindow from "@/app/conversation/resultWindow";
 import { useSchemaModalContext } from "@/context/schemaModalContext";
 import { useSidebarOpenContext } from "@/context/sideBarContext";
 import { useKnobSidebarOpenContext } from "@/context/knobSideBarContext";
+import { useWorkloadContext } from "@/context/workloadModalContext";
 import { Button, Divider } from "@nextui-org/react";
 
 export default function Conversation() {
     const { setIsSidebarOpen } = useSidebarOpenContext();
     const { setIsSchemaGraphOpen } = useSchemaModalContext();
     const { setIsKnobSidebarOpen } = useKnobSidebarOpenContext();
+    const { setIsWorkloadOpen } = useWorkloadContext();
     
     return (
         <div className="">
@@ -18,6 +20,9 @@ export default function Conversation() {
             </Button>
             <Button className="ml-5"color="primary" variant="flat" onClick={() => setIsSchemaGraphOpen(true)}>
                 Show schema
+            </Button>
+            <Button className="ml-5" color="primary" variant="flat" onClick={() => setIsWorkloadOpen(true)}>
+                Show Workload
             </Button>
             <Button className="ml-5" color="primary" variant="flat" onClick={() => setIsKnobSidebarOpen(true)}>
                 Show Knobs

@@ -4,6 +4,8 @@ import { SchemaModalContextContextProvider } from "@/context/schemaModalContext"
 import { SidebarOpenContextContextProvider } from "@/context/sideBarContext";
 import { DatabaseContextProvider } from "@/context/databaseContext";
 import { KnobSidebarOpenContextContextProvider } from "@/context/knobSideBarContext";
+import { WorkloadContextProvider } from "@/context/workloadModalContext";
+import { QuestionSqlProvider } from "@/context/questionSqlContext";
 
 export function Providers({ children }: { children: React.ReactNode }) {
     return (
@@ -11,12 +13,16 @@ export function Providers({ children }: { children: React.ReactNode }) {
             <QueryResultContextProvider>
                 <SidebarOpenContextContextProvider>
                     <KnobSidebarOpenContextContextProvider>
-                            <SchemaModalContextContextProvider>
-                                <DatabaseContextProvider>
-                                    {children}
-                                </DatabaseContextProvider>
-                            </SchemaModalContextContextProvider>
-                        </KnobSidebarOpenContextContextProvider>
+                        <QuestionSqlProvider>
+                            <WorkloadContextProvider>
+                                <SchemaModalContextContextProvider>
+                                    <DatabaseContextProvider>
+                                        {children}
+                                    </DatabaseContextProvider>
+                                </SchemaModalContextContextProvider>
+                            </WorkloadContextProvider>
+                        </QuestionSqlProvider>
+                    </KnobSidebarOpenContextContextProvider>
                 </SidebarOpenContextContextProvider>
             </QueryResultContextProvider>
         </ChatContextProvider>
