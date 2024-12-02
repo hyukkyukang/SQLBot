@@ -29,6 +29,7 @@ export default function WorkloadModal({children}: {children: React.ReactNode}) {
                                     <table className="question-sql-table w-full border-collapse border border-gray-300">
                                         <thead>
                                             <tr>
+                                                <th className="border border-gray-300 p-2">Question ID</th>
                                                 <th className="border border-gray-300 p-2">Natural Language Question</th>
                                                 <th className="border border-gray-300 p-2">Translated SQL Query</th>
                                                 <th className="border border-gray-300 p-2">Execution Time</th>
@@ -38,6 +39,7 @@ export default function WorkloadModal({children}: {children: React.ReactNode}) {
                                             {questionSqlPairs.length > 0 ? (
                                                 questionSqlPairs.map((pair, index) => (
                                                     <tr key={index}>
+                                                        <td className="border border-gray-300 p-2">{pair.qid}</td>
                                                         <td className="border border-gray-300 p-2">{pair.question}</td>
                                                         <td className="border border-gray-300 p-2">{pair.sql}</td>
                                                         <td className="border border-gray-300 p-2">{pair.execution_time}</td>
@@ -45,7 +47,7 @@ export default function WorkloadModal({children}: {children: React.ReactNode}) {
                                                 ))
                                             ) : (
                                                 <tr>
-                                                    <td colSpan={2} className="border border-gray-300 p-2 text-center">
+                                                    <td colSpan={4} className="border border-gray-300 p-2 text-center">
                                                         No history available.
                                                     </td>
                                                 </tr>

@@ -53,6 +53,7 @@ export default function ChatWindow() {
             if (!isDuplicate || !translationHandled) {
                 if (!isConductTuning) {
                 const newPair = {
+                    qid: questionSqlPairs.length,
                     question: userMessages[userMessages.length - 1]?.message,
                     sql: translationResult?.data.pred_sql,
                     execution_time: 10,

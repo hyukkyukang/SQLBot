@@ -1,16 +1,21 @@
 "use client";
 import BarChartWindow from "@/app/conversation/barChart";
+import WorkloadBarChartWindow from "@/app/conversation/workloadBarChart";
 import { useQueryResultContext } from "@/context/queryResultContext";
 import { queryResultToColNames, queryResultToRows, validateSameNumCols } from "@/lib/table/utils";
 import ResultTable from "@/ui/table/table";
 import { Card, CardBody, Tab, Tabs } from "@nextui-org/react";
 import React, { useMemo } from "react";
+import { useQuestionSqlContext } from "@/context/questionSqlContext";
 
 export default function ResultWindow() {
   const { queryResult } = useQueryResultContext();
+  const { questionSqlPairs, setQuestionSqlPairs } = useQuestionSqlContext();
   const validResult = useMemo(() => validateSameNumCols(queryResult), [queryResult]);
   const colNames = useMemo(() => validResult && queryResult ? queryResultToColNames(queryResult) : [], [queryResult, validResult]);
   const rows = useMemo(() => validResult  && queryResult ? queryResultToRows(queryResult) : [[]], [queryResult, validResult]);
+  const sqls_and_qids_in_order = useMemo(() => questionSqlPairs.map(pair => `${pair.qid} (${pair.sql})`), [questionSqlPairs]);
+  const execution_times_in_order = useMemo(() => [questionSqlPairs.map(pair => pair.execution_time)], [questionSqlPairs]);
   const showResultTable = useMemo(() => validResult && queryResult && queryResult.length > 0, [validResult, queryResult]);
 
     return (
@@ -24,6 +29,9 @@ export default function ResultWindow() {
                 </Tab>
                 <Tab key="Bar Chart" title="Bar Chart">
                   <BarChartWindow title="Result Bar Chart" colNames={colNames} rows={rows} />
+                </Tab>
+                <Tab key="Workload" title="Execution Time">
+                  <WorkloadBarChartWindow title="Execution Time Bar Chart" colNames={sqls_and_qids_in_order} rows={execution_times_in_order} />
                 </Tab>
               </Tabs>
             </div>  
