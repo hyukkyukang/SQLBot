@@ -47,8 +47,11 @@ export default function ChatWindow() {
             const isDuplicate = questionSqlPairs.some(pair => 
                 pair.question === userMessages[userMessages.length - 1]?.message
             );
-    
+            // Check if the user message is "conduct tuning"
+            const isConductTuning = translationResult?.data?.pred_sql === "conduct tuning";
+            // do not add to questionSqlPairs if the user message is "conduct tuning" not or duplicate
             if (!isDuplicate || !translationHandled) {
+                if (!isConductTuning) {
                 const newPair = {
                     question: userMessages[userMessages.length - 1]?.message,
                     sql: translationResult?.data.pred_sql,
@@ -56,8 +59,10 @@ export default function ChatWindow() {
                 setQuestionSqlPairs(prevPairs => [...prevPairs, newPair]);
                 setTranslationHandled(true); // Mark as handled to avoid repeating
             }
+            }
         }
     }, [translationResult?.data?.pred_sql, userMessages, questionSqlPairs, translationHandled]);
+    
     console.log(questionSqlPairs);
     useEffect(() => {
         // Reset translationHandled whenever a new message is added
@@ -212,8 +217,11 @@ export default function ChatWindow() {
         }
         else if (localQueryResult.data == undefined || localQueryResult.data == null) {
             setQueryResult(null);
+            if (localQueryResult.isTuning) {
+                setIsWaitingSummarization(false);
+            }
         }
-    }, [selectedDB, setQueryResult, localQueryResult.data]);
+    }, [selectedDB, setQueryResult, localQueryResult.data, localQueryResult.isTuning]);
 
     return (
         <React.Fragment>

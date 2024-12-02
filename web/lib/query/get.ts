@@ -16,9 +16,11 @@ export function useResultByQuery(dbName: string, query: string) {
 
     // isLoading is not directly provided by useSWR, so it must be derived from `data` and `error`.
     const isLoading = !data && !error;
+    const isTuning = query == "conduct tuning";
 
     return {
         data,
+        isTuning,
         isLoading,
         isError: !!error, // Convert error to a boolean indicating if there is an error
     };

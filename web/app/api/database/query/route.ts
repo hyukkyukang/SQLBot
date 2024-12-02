@@ -25,6 +25,9 @@ export async function GET(request: Request) {
     else if(query == "") {
         return new Response("query is empty")
     }
+    else if(query == "conduct tuning") {
+        return new Response("tuning is done")
+    }
 
     // route prisma to the correct database
     var prisma = null
