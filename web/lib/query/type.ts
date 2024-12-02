@@ -3,10 +3,5 @@ export type queryResultItem = {
 };
 
 export type queryResult = queryResultItem[];
-
-export type QuestionSqlPairType = {
-    question: string;
-    sql: string;
-  };
   
 

@@ -3,7 +3,7 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-type QuestionSqlPair = { question: string; sql: string };
+type QuestionSqlPair = { question: string; sql: string , execution_time: number};
 
 interface QuestionSqlContextProps {
   questionSqlPairs: QuestionSqlPair[];

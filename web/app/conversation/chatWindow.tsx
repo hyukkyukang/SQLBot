@@ -55,6 +55,7 @@ export default function ChatWindow() {
                 const newPair = {
                     question: userMessages[userMessages.length - 1]?.message,
                     sql: translationResult?.data.pred_sql,
+                    execution_time: 10,
                 };
                 setQuestionSqlPairs(prevPairs => [...prevPairs, newPair]);
                 setTranslationHandled(true); // Mark as handled to avoid repeating

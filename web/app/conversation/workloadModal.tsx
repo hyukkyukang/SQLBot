@@ -31,6 +31,7 @@ export default function WorkloadModal({children}: {children: React.ReactNode}) {
                                             <tr>
                                                 <th className="border border-gray-300 p-2">Natural Language Question</th>
                                                 <th className="border border-gray-300 p-2">Translated SQL Query</th>
+                                                <th className="border border-gray-300 p-2">Execution Time</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -39,6 +40,7 @@ export default function WorkloadModal({children}: {children: React.ReactNode}) {
                                                     <tr key={index}>
                                                         <td className="border border-gray-300 p-2">{pair.question}</td>
                                                         <td className="border border-gray-300 p-2">{pair.sql}</td>
+                                                        <td className="border border-gray-300 p-2">{pair.execution_time}</td>
                                                     </tr>
                                                 ))
                                             ) : (
