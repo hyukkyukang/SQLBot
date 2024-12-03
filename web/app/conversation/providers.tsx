@@ -6,6 +6,7 @@ import { DatabaseContextProvider } from "@/context/databaseContext";
 import { KnobSidebarOpenContextContextProvider } from "@/context/knobSideBarContext";
 import { WorkloadContextProvider } from "@/context/workloadModalContext";
 import { QuestionSqlProvider } from "@/context/questionSqlContext";
+import { TuningResultProvider } from "@/context/dbtuningContext";
 
 export function Providers({ children }: { children: React.ReactNode }) {
     return (
@@ -13,15 +14,17 @@ export function Providers({ children }: { children: React.ReactNode }) {
             <QueryResultContextProvider>
                 <SidebarOpenContextContextProvider>
                     <KnobSidebarOpenContextContextProvider>
-                        <QuestionSqlProvider>
-                            <WorkloadContextProvider>
-                                <SchemaModalContextContextProvider>
-                                    <DatabaseContextProvider>
-                                        {children}
-                                    </DatabaseContextProvider>
-                                </SchemaModalContextContextProvider>
-                            </WorkloadContextProvider>
-                        </QuestionSqlProvider>
+                        <TuningResultProvider>
+                            <QuestionSqlProvider>
+                                <WorkloadContextProvider>
+                                    <SchemaModalContextContextProvider>
+                                        <DatabaseContextProvider>
+                                            {children}
+                                        </DatabaseContextProvider>
+                                    </SchemaModalContextContextProvider>
+                                </WorkloadContextProvider>
+                            </QuestionSqlProvider>
+                        </TuningResultProvider>
                     </KnobSidebarOpenContextContextProvider>
                 </SidebarOpenContextContextProvider>
             </QueryResultContextProvider>

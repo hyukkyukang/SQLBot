@@ -3,9 +3,11 @@ import { useChatContext } from "@/context/chatContext";
 import { useDatabaseContext } from "@/context/databaseContext";
 import { useQueryResultContext } from "@/context/queryResultContext";
 import { useQuestionSqlContext } from "@/context/questionSqlContext";
+import { useTuningResultContext } from "@/context/dbtuningContext";
 import { MessageType, RESET_MESSAGE } from "@/lib/message/types";
 import { DBAdminBotMessageToMessageModel, filterMessagesByType, filterUserMessages } from "@/lib/message/utils";
 import { useSummarizationFromTable } from "@/lib/model/table2text/get";
+import { useDBTuning } from "@/lib/model/tuning/get";
 import { summarizationInput } from "@/lib/model/table2text/type";
 import { useResetTranslationHistory, useTranslatedSQLByQuestion } from "@/lib/model/text2sql/get";
 import { useResultByQuery } from "@/lib/query/get";
@@ -25,8 +27,10 @@ export default function ChatWindow() {
     const { selectedDB } = useDatabaseContext();
     const { setQueryResult } = useQueryResultContext();
     const { questionSqlPairs, setQuestionSqlPairs } = useQuestionSqlContext();
+    const { tuningResultPairs, setTuningResultPairs } = useTuningResultContext();
     const [isWaitingTranslation, setIsWaitingTranslation] = useState<boolean>(false);
     const [isWaitingSummarization, setIsWaitingSummarization] = useState<boolean>(false);
+    const [isWaitingTuning, setIsWaitingTuning] = useState<boolean>(false);
     const [inputMessage, setInputMessage] = useState<string>("");
     const [resetSession, setResetSession] = useState<boolean>(false);
     const [translationHandled, setTranslationHandled] = useState<boolean>(false);
@@ -38,7 +42,19 @@ export default function ChatWindow() {
     const translationResult = useTranslatedSQLByQuestion(selectedDB, userMessages[userMessages.length - 1]?.message, messages[messages.length - 2]?.message == RESET_MESSAGE)
     const summarizationResult = useSummarizationFromTable(localQueryResult.data as unknown as summarizationInput);
     const tmpResetResponse = useResetTranslationHistory(resetSession);
+    const tuningResult = useDBTuning(questionSqlPairs, localQueryResult.isTuning);
     
+    useEffect(() => {
+        if (tuningResult && isWaitingTuning) {
+            console.log('tuningResult', tuningResult);
+            setTuningResultPairs(tuningResult);
+            setIsWaitingTuning(false);
+        }
+        else if (tuningResult == undefined || tuningResult == null) {
+            setTuningResultPairs([]);
+        }
+    }, [tuningResult, isWaitingTuning]);
+
     useEffect(() => {
         if (
             translationResult?.data?.pred_sql && 
@@ -56,7 +72,7 @@ export default function ChatWindow() {
                     qid: questionSqlPairs.length,
                     question: userMessages[userMessages.length - 1]?.message,
                     sql: translationResult?.data.pred_sql,
-                    execution_time: 10,
+                    execution_time: 10
                 };
                 setQuestionSqlPairs(prevPairs => [...prevPairs, newPair]);
                 setTranslationHandled(true); // Mark as handled to avoid repeating
@@ -221,6 +237,7 @@ export default function ChatWindow() {
             setQueryResult(null);
             if (localQueryResult.isTuning) {
                 setIsWaitingSummarization(false);
+                setIsWaitingTuning(true);
             }
         }
     }, [selectedDB, setQueryResult, localQueryResult.data, localQueryResult.isTuning]);
